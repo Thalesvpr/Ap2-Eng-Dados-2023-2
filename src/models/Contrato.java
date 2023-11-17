@@ -1,6 +1,6 @@
 package models;
 
-import java.time.LocalDate;
+import java.time.LocalDate; // quais outros formatos de datas precisamos pro trabalho?
 
 public class Contrato {
 

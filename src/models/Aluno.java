@@ -29,6 +29,9 @@ public class Aluno {
         this.email = email;
     }
 
+    public Aluno() {
+    }
+
     private int calculaIdade(LocalDate dataNascimento) {
         LocalDate hoje = LocalDate.now();
         Period periodo = Period.between(dataNascimento, hoje);
