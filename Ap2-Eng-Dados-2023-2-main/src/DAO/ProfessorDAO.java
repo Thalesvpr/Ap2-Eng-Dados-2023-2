@@ -1,11 +1,11 @@
 package DAO;
 
-
+import models.Professor;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Professor {
+public class ProfessorDAO {
     private static final String URL = "jdbc:mysql://localhost:3306/seubanco"; // Substitua com a URL do seu banco
     private static final String USUARIO = "seu_usuario";
     private static final String SENHA = "sua_senha";
