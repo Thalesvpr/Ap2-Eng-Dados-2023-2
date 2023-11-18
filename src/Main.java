@@ -14,31 +14,65 @@ import dao.ContratoDAO;
 public class Main {
     public static void main(String[] args) throws Exception {
         
-        Aluno aluno1 = new Aluno("Luis", LocalDate.of(1997, 1, 27), "21996558585", "luis@gmail.com");
-        Aluno aluno2 = new Aluno("Manoela", LocalDate.of(1999, 3, 27), "21998558585", "manoela@gmail.com");
-        Aluno aluno3 = new Aluno("Matheus", LocalDate.of(1985, 1, 15), "21996552000", "matheus@gmail.com");
-        Aluno aluno4 = new Aluno("Larissa", LocalDate.of(1993, 5, 20), "21987759085", "larissa@gmail.com");
-        Aluno aluno5 = new Aluno("Lourdes", LocalDate.of(2000, 4, 30), "21996532675", "lourdes@gmail.com");
-
-        System.out.println("Comecei a printar os objetos de pessoa criados em memoria\n");
-        System.out.println(aluno1);
-        System.out.println(aluno2);
-        System.out.println(aluno3);
-        System.out.println(aluno4);
-        System.out.println(aluno5);
+        Aluno aluno1 = new Aluno("Tiago", LocalDate.of(1997, 1, 27), "21996558585", "tiago@gmail.com");
+        Aluno aluno2 = new Aluno("Antônio", LocalDate.of(1999, 3, 27), "21998558585", "antonio@gmail.com");
+        Aluno aluno3 = new Aluno("Larissa", LocalDate.of(1985, 1, 15), "21996552000", "larissa@gmail.com");
+        Aluno aluno4 = new Aluno("Isabela", LocalDate.of(1993, 5, 20), "21987759085", "isa@gmail.com");
+        Aluno aluno5 = new Aluno("Tatiana", LocalDate.of(2000, 4, 30), "21999999999", "tatiana@gmail.com");
+        Aluno aluno6 = new Aluno("Ana", LocalDate.of(2002, 7, 21), "21981667879", "ana@gmail.com");
 
         ConnectionFactory fabricaDeConexao = new ConnectionFactory();
         Connection connection = fabricaDeConexao.connectionFactory();
 
         AlunoDAO adao = new AlunoDAO(connection);
 
+        System.out.println("Insercao de dados na tabela 'Aluno'\n");
+
         adao.createAluno(aluno1);
         adao.createAluno(aluno2);
         adao.createAluno(aluno3);
         adao.createAluno(aluno4);
         adao.createAluno(aluno5);
+        adao.createAluno(aluno6);
 
+        System.out.println(aluno1);
+        System.out.println(aluno2);
+        System.out.println(aluno3);
+        System.out.println(aluno4);
+        System.out.println(aluno5);
+        System.out.println(aluno6);
 
+        System.out.println("\n----------------");
+        System.out.println("Metodo para consultar um elemento especifico da tabela 'Aluno'\n");
 
+        Aluno alunoX = adao.getAlunoById(1);
+        Aluno alunoY = adao.getAlunoById(2);
+
+        System.out.println(alunoX);
+        System.out.println(alunoY);
+
+        System.out.println("\n----------------");
+        System.out.println("Atualizacao de dados na tabela 'Aluno'\n");
+
+        System.out.println(adao.getAlunoById(4));
+        adao.updateEmail(4, "bela@gmail.com");
+        System.out.println(adao.getAlunoById(4));
+        System.out.println("");
+
+        System.out.println(adao.getAlunoById(5));
+        adao.updateTelefone(5, "21988888888");
+        System.out.println(adao.getAlunoById(5));
+
+        System.out.println("\n----------------");
+        System.out.println("Delecao de dados na tabela 'Aluno'\n");
+
+        System.out.println(adao.getAlunoById(6));
+        adao.deleteAluno(6);
+        adao.getAlunoById(6);
+
+        System.out.println("\n----------------");
+        System.out.println("Metodo para consultar todos os elementos da tabela 'Aluno'\n");
+
+        System.out.println(adao.getAllAlunos());
     }
 }

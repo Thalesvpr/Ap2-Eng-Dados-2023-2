@@ -27,14 +27,14 @@ public class AlunoDAO {
 
             try (PreparedStatement pstm = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-                pstm.setString(1, aluno.getNome()); // esse parameterindex é relativo ao sql acima ou a tabela propriamente dita?
+                pstm.setString(1, aluno.getNome());
                 pstm.setObject(2, aluno.getDataNascimento());
                 pstm.setInt(3, aluno.getIdade());
                 pstm.setString(4, aluno.getTelefone());
                 pstm.setString(5, aluno.getEmail());
 
                 pstm.execute();
-
+                
                 try (ResultSet rst = pstm.getGeneratedKeys()) {
                     while (rst.next()) {
                         aluno.setIdAluno(rst.getInt(1));
@@ -117,7 +117,7 @@ public class AlunoDAO {
     
                 try (ResultSet rst = pstm.executeQuery()) {
                     if (rst.next()) {
-                        Aluno aluno = new Aluno(); // para aceitar essa atribuição é necessário ter um objeto aluno com todos atributos vazios?
+                        Aluno aluno = new Aluno();
                         aluno.setIdAluno(rst.getInt("idAluno"));
                         aluno.setNome(rst.getString("nome"));
                         aluno.setDataNascimento(rst.getObject("dataNascimento", LocalDate.class));
