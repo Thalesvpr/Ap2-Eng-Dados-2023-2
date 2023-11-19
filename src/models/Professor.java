@@ -1,6 +1,6 @@
 package models;
 
-public class Professores {
+public class Professor {
     private int idProfessores;
     private String nome;
     private String especialidade;
