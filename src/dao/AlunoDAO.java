@@ -1,7 +1,6 @@
 package dao;
 
 import java.sql.Connection;
-// import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -80,7 +79,7 @@ public class AlunoDAO {
                 if (rowsAffected > 0) {
                     System.out.println("Email atualizado com sucesso!");
                 } else {
-                    System.out.println("Nenhum aluno encontrado com o ID especificado.");
+                    System.out.println("Nenhum aluno encontrado.");
                 }
             }
         } catch (SQLException e) {
@@ -100,7 +99,7 @@ public class AlunoDAO {
                 if (rowsAffected > 0) {
                     System.out.println("Aluno excluído com sucesso!");
                 } else {
-                    System.out.println("Nenhum aluno encontrado com o ID especificado.");
+                    System.out.println("Nenhum aluno encontrado.");
                 }
             }
         } catch (SQLException e) {
@@ -108,12 +107,12 @@ public class AlunoDAO {
         }
     }
 
-    public Aluno getAlunoById(Aluno alunoRetriveOne) {
+    public Aluno getAlunoById(int idAluno) {
         try {
             String sql = "SELECT * FROM aluno WHERE idAluno = ?";
     
             try (PreparedStatement pstm = connection.prepareStatement(sql)) {
-                pstm.setInt(1, alunoRetriveOne.getIdAluno());
+                pstm.setInt(1, idAluno);
     
                 try (ResultSet rst = pstm.executeQuery()) {
                     if (rst.next()) {

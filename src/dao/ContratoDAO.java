@@ -8,7 +8,6 @@ import java.sql.Statement;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
 import models.Contrato;
 import models.Aluno;
@@ -77,7 +76,7 @@ public class ContratoDAO {
     
     public void updateDataTermino(Contrato contrato, LocalDate novaDataTermino) {
         try {
-            String sql = "UPDATE contarto SET dataIncio = ? WHERE idContrato = ?";
+            String sql = "UPDATE contrato SET dataTermino = ? WHERE idContrato = ?";
     
             try (PreparedStatement pstm = connection.prepareStatement(sql)) {
                 pstm.setObject(1, novaDataTermino);
@@ -87,8 +86,32 @@ public class ContratoDAO {
     
                 if (rowsAffected > 0) {
                     System.out.println("Data de término do contrato atualizado com sucesso!");
+
+                    Contrato contratoAtualizado = getContratoByAluno(contrato.getAluno());
+                    contrato.setDataTermino(contratoAtualizado.getDataTermino());
                 } else {
-                    System.out.println("Nenhum contrato encontrado com o ID especificado.");
+                    System.out.println("Nenhum contrato encontrado.");
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updateValorMensalidade(Contrato contrato) {
+        try {
+            String sql = "UPDATE contrato SET valorMensalidade = ? WHERE idContrato = ?";
+    
+            try (PreparedStatement pstm = connection.prepareStatement(sql)) {
+                pstm.setObject(1, contrato.getValorMensalidade());
+                pstm.setInt(2, contrato.getIdContrato());
+    
+                int rowsAffected = pstm.executeUpdate();
+    
+                if (rowsAffected > 0) {
+                    System.out.println("Quantidade de aulas atualizada com sucesso!");
+                } else {
+                    System.out.println("Nenhum contrato encontrado.");
                 }
             }
         } catch (SQLException e) {
@@ -98,7 +121,7 @@ public class ContratoDAO {
 
     public void updateQtdAulas(Contrato contrato, int novaQtdAulas) {
         try {
-            String sql = "UPDATE contarto SET qtdAulas = ? WHERE idContrato = ?";
+            String sql = "UPDATE contrato SET qtdAulas = ? WHERE idContrato = ?";
     
             try (PreparedStatement pstm = connection.prepareStatement(sql)) {
                 pstm.setObject(1, novaQtdAulas);
@@ -108,8 +131,13 @@ public class ContratoDAO {
     
                 if (rowsAffected > 0) {
                     System.out.println("Quantidade de aulas atualizada com sucesso!");
+
+                    Contrato contratoAtualizado = getContratoByAluno(contrato.getAluno());
+                    contrato.setQtdAulas(contratoAtualizado.getQtdAulas());
+                    contrato.atualizaMensalidade();
+                    updateValorMensalidade(contrato);
                 } else {
-                    System.out.println("Nenhum contrato encontrado com o ID especificado.");
+                    System.out.println("Nenhum contrato encontrado.");
                 }
             }
         } catch (SQLException e) {
@@ -119,7 +147,7 @@ public class ContratoDAO {
 
     public void updateValorPorAula(Contrato contrato, float novoValorPorAula) {
         try {
-            String sql = "UPDATE contarto SET valorPorAula = ? WHERE idContrato = ?";
+            String sql = "UPDATE contrato SET valorPorAula = ? WHERE idContrato = ?";
     
             try (PreparedStatement pstm = connection.prepareStatement(sql)) {
                 pstm.setObject(1, novoValorPorAula);
@@ -129,6 +157,11 @@ public class ContratoDAO {
     
                 if (rowsAffected > 0) {
                     System.out.println("Valor por aula atualizado com sucesso!");
+
+                    Contrato contratoAtualizado = getContratoByAluno(contrato.getAluno());
+                    contrato.setValorPorAula(contratoAtualizado.getValorPorAula());
+                    contrato.atualizaMensalidade();
+                    updateValorMensalidade(contrato);
                 } else {
                     System.out.println("Nenhum contrato encontrado com o ID especificado.");
                 }
@@ -156,5 +189,67 @@ public class ContratoDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+    public Contrato getContratoByAluno(Aluno aluno) {
+        try {
+            String sql = "SELECT * FROM contrato WHERE fk_idAluno = ?";
+    
+            try (PreparedStatement pstm = connection.prepareStatement(sql)) {
+                pstm.setInt(1, aluno.getIdAluno());
+    
+                try (ResultSet rst = pstm.executeQuery()) {
+                    if (rst.next()) {
+                        Contrato contrato = new Contrato();
+                        AlunoDAO adao = new AlunoDAO(connection);
+                        contrato.setIdContrato(rst.getInt("idContrato"));
+                        contrato.setAluno(adao.getAlunoById(rst.getInt("fk_idAluno")));
+                        contrato.setDataInicio(rst.getObject("dataInicio", LocalDate.class));
+                        contrato.setDataTermino(rst.getObject("dataTermino", LocalDate.class));
+                        contrato.setTipo(rst.getString("tipo"));
+                        contrato.setQtdAulas(rst.getInt("qtdAulas"));
+                        contrato.setValorPorAula(rst.getFloat("valorPorAula"));
+                        contrato.setValorMensalidade(rst.getFloat("valorMensalidade"));
+    
+                        return contrato;
+                    } else {
+                        System.out.println("Nenhum contrato encontrado para o aluno especificado.");
+                        return null;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public ArrayList<Contrato> getAllContratos() {
+        ArrayList<Contrato> contratos = new ArrayList<>();
+
+        try {
+            String sql = "SELECT * FROM contrato";
+
+            try (PreparedStatement pstm = connection.prepareStatement(sql);
+                 ResultSet rst = pstm.executeQuery()) {
+
+                while (rst.next()) {
+                    Contrato contrato = new Contrato();
+                    AlunoDAO adao = new AlunoDAO(connection);
+                    contrato.setIdContrato(rst.getInt("idContrato"));
+                    contrato.setAluno(adao.getAlunoById(rst.getInt("fk_idAluno")));
+                    contrato.setDataInicio(rst.getObject("dataInicio", LocalDate.class));
+                    contrato.setDataTermino(rst.getObject("dataTermino", LocalDate.class));
+                    contrato.setTipo(rst.getString("tipo"));
+                    contrato.setQtdAulas(rst.getInt("qtdAulas"));
+                    contrato.setValorPorAula(rst.getFloat("valorPorAula"));
+                    contrato.setValorMensalidade(rst.getFloat("valorMensalidade"));
+
+                    contratos.add(contrato);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return contratos;
     }
 }

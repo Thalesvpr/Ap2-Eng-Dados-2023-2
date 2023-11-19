@@ -1,6 +1,6 @@
 package models;
 
-import java.time.LocalDate; // quais outros formatos de datas precisamos pro trabalho?
+import java.time.LocalDate;
 
 public class Contrato {
 
@@ -41,8 +41,15 @@ public class Contrato {
         this.tipo = tipo;
     }
 
+    public Contrato() {
+    }
+
     private float calculaMensalidade(int qtdAulas, float valorPorAula) {
-        return qtdAulas * valorPorAula;
+        return qtdAulas * valorPorAula * 4;
+    }
+
+    public float atualizaMensalidade() {
+        return this.valorMensalidade = calculaMensalidade(this.qtdAulas, this.valorPorAula);
     }
 
     public int getIdContrato() {
@@ -107,5 +114,11 @@ public class Contrato {
 
     public void setValorPorAula(float valorPorAula) {
         this.valorPorAula = valorPorAula;
+    }
+
+    @Override
+    public String toString() {
+        return idContrato + " | Aluno : " + this.aluno.getNome() + " | IdAluno: " + this.aluno.getIdAluno() + " | Plano " + tipo + "\nValido de: " + dataInicio + 
+        " até " + dataTermino + " | Aulas por semana: " + qtdAulas + " | Valor por Aula: " + valorPorAula + " | Valor da mensalidade: " + valorMensalidade;
     }
 }
