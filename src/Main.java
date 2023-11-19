@@ -45,8 +45,8 @@ public class Main {
         System.out.println("\n----------------");
         System.out.println("Metodo para consultar um elemento especifico da tabela 'Aluno'\n");
 
-        Aluno alunoX = adao.getAlunoById(1);
-        Aluno alunoY = adao.getAlunoById(2);
+        Aluno alunoX = adao.getAlunoById(aluno1);
+        Aluno alunoY = adao.getAlunoById(aluno2);
 
         System.out.println(alunoX);
         System.out.println(alunoY);
@@ -54,25 +54,31 @@ public class Main {
         System.out.println("\n----------------");
         System.out.println("Atualizacao de dados na tabela 'Aluno'\n");
 
-        System.out.println(adao.getAlunoById(4));
-        adao.updateEmail(4, "bela@gmail.com");
-        System.out.println(adao.getAlunoById(4));
+        System.out.println("Atualiza email");
+        System.out.println(adao.getAlunoById(aluno4));
+        adao.updateEmail(aluno4, "bela@gmail.com");
+        System.out.println(adao.getAlunoById(aluno4));
         System.out.println("");
 
-        System.out.println(adao.getAlunoById(5));
-        adao.updateTelefone(5, "21988888888");
-        System.out.println(adao.getAlunoById(5));
+        System.out.println("Atualiza telefone");
+        System.out.println(adao.getAlunoById(aluno5));
+        adao.updateTelefone(aluno5, "21988888888");
+        System.out.println(adao.getAlunoById(aluno5));
 
         System.out.println("\n----------------");
         System.out.println("Delecao de dados na tabela 'Aluno'\n");
 
-        System.out.println(adao.getAlunoById(6));
-        adao.deleteAluno(6);
-        adao.getAlunoById(6);
+        System.out.println(adao.getAlunoById(aluno6));
+        adao.deleteAluno(aluno6);
+        adao.getAlunoById(aluno6);
 
         System.out.println("\n----------------");
         System.out.println("Metodo para consultar todos os elementos da tabela 'Aluno'\n");
 
-        System.out.println(adao.getAllAlunos());
+        ArrayList<Aluno> alunos = adao.getAllAlunos();
+
+        for (Aluno aluno : alunos) {
+            System.out.println(aluno);
+        }
     }
 }

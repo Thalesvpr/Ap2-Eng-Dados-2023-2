@@ -1,6 +1,7 @@
 package dao;
 
 import java.sql.Connection;
+// import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,7 +9,6 @@ import java.sql.Statement;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
 import models.Aluno;
 
@@ -46,13 +46,13 @@ public class AlunoDAO {
         }
     }
     
-    public void updateTelefone(int idAluno, String novoTelefone) {
+    public void updateTelefone(Aluno aluno, String novoTelefone) {
         try {
             String sql = "UPDATE aluno SET telefone = ? WHERE idAluno = ?";
     
             try (PreparedStatement pstm = connection.prepareStatement(sql)) {
                 pstm.setString(1, novoTelefone);
-                pstm.setInt(2, idAluno);
+                pstm.setInt(2, aluno.getIdAluno());
     
                 int rowsAffected = pstm.executeUpdate();
     
@@ -67,13 +67,13 @@ public class AlunoDAO {
         }
     }
 
-    public void updateEmail(int idAluno, String novoEmail) {
+    public void updateEmail(Aluno aluno, String novoEmail) {
         try {
             String sql = "UPDATE aluno SET email = ? WHERE idAluno = ?";
     
             try (PreparedStatement pstm = connection.prepareStatement(sql)) {
                 pstm.setString(1, novoEmail);
-                pstm.setInt(2, idAluno);
+                pstm.setInt(2, aluno.getIdAluno());
     
                 int rowsAffected = pstm.executeUpdate();
     
@@ -88,12 +88,12 @@ public class AlunoDAO {
         }
     }
 
-    public void deleteAluno(int idAluno) {
+    public void deleteAluno(Aluno aluno) {
         try {
             String sql = "DELETE FROM aluno WHERE idAluno = ?";
     
             try (PreparedStatement pstm = connection.prepareStatement(sql)) {
-                pstm.setInt(1, idAluno);
+                pstm.setInt(1, aluno.getIdAluno());
     
                 int rowsAffected = pstm.executeUpdate();
     
@@ -108,12 +108,12 @@ public class AlunoDAO {
         }
     }
 
-    public Aluno getAlunoById(int idAluno) {
+    public Aluno getAlunoById(Aluno alunoRetriveOne) {
         try {
             String sql = "SELECT * FROM aluno WHERE idAluno = ?";
     
             try (PreparedStatement pstm = connection.prepareStatement(sql)) {
-                pstm.setInt(1, idAluno);
+                pstm.setInt(1, alunoRetriveOne.getIdAluno());
     
                 try (ResultSet rst = pstm.executeQuery()) {
                     if (rst.next()) {
@@ -137,8 +137,8 @@ public class AlunoDAO {
         }
     }
 
-    public List<Aluno> getAllAlunos() {
-        List<Aluno> alunos = new ArrayList<>();
+    public ArrayList<Aluno> getAllAlunos() {
+        ArrayList<Aluno> alunos = new ArrayList<>();
 
         try {
             String sql = "SELECT * FROM aluno";

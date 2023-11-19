@@ -5,6 +5,7 @@ import java.time.LocalDate; // quais outros formatos de datas precisamos pro tra
 public class Contrato {
 
     private int idContrato;
+    private Aluno aluno;
     private LocalDate dataInicio;
     private LocalDate dataTermino;
     private float valorMensalidade = 0;
@@ -13,7 +14,8 @@ public class Contrato {
     private float valorPorAula = 0;
 
 
-    public Contrato(int idContrato, LocalDate dataInicio, LocalDate dataTermino, String tipo, int qtdAulas, float valorPorAula) {
+    public Contrato(int idContrato, Aluno aluno, LocalDate dataInicio, LocalDate dataTermino, String tipo, int qtdAulas, float valorPorAula) {
+        this.aluno = aluno;
         this.dataInicio = dataInicio;
         this.dataTermino = dataTermino;
         this.tipo = tipo;
@@ -22,7 +24,8 @@ public class Contrato {
         this.valorMensalidade = calculaMensalidade(this.qtdAulas, this.valorPorAula);
     }
 
-    public Contrato(LocalDate dataInicio, LocalDate dataTermino, String tipo, int qtdAulas, float valorPorAula) {
+    public Contrato(Aluno aluno, LocalDate dataInicio, LocalDate dataTermino, String tipo, int qtdAulas, float valorPorAula) {
+        this.aluno = aluno;
         this.dataInicio = dataInicio;
         this.dataTermino = dataTermino;
         this.tipo = tipo;
@@ -31,7 +34,8 @@ public class Contrato {
         this.valorMensalidade = calculaMensalidade(this.qtdAulas, this.valorPorAula);
     }
 
-    public Contrato(LocalDate dataInicio, LocalDate dataTermino, String tipo) {
+    public Contrato(Aluno aluno, LocalDate dataInicio, LocalDate dataTermino, String tipo) {
+        this.aluno = aluno;
         this.dataInicio = dataInicio;
         this.dataTermino = dataTermino;
         this.tipo = tipo;
@@ -47,6 +51,14 @@ public class Contrato {
 
     public void setIdContrato(int idContrato) {
         this.idContrato = idContrato;
+    }
+
+    public Aluno getAluno() {
+        return aluno;
+    }
+
+    public void setAluno(Aluno aluno) {
+        this.aluno = aluno;
     }
 
     public LocalDate getDataInicio() {
