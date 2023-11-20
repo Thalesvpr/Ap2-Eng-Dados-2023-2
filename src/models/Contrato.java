@@ -12,8 +12,6 @@ public class Contrato {
     private float valorPorAula;
 
 
-<<<<<<< Updated upstream
-=======
     public Contrato(int idContrato, Aluno aluno, LocalDate dataInicio, LocalDate dataTermino, String tipo, int qtdAulas, float valorPorAula) {
         this.idContrato = idContrato;
         this.aluno = aluno;
@@ -122,5 +120,4 @@ public class Contrato {
         return idContrato + " | Aluno : " + this.aluno.getNome() + " | IdAluno: " + this.aluno.getIdAluno() + "\nValido de: " + dataInicio + 
         " até " + dataTermino + " | Aulas por semana: " + qtdAulas + " | Valor por Aula: " + valorPorAula + " | Valor da mensalidade: " + valorMensalidade;
     }
->>>>>>> Stashed changes
 }
